@@ -1,7 +1,13 @@
 package controller
 
 import (
+	"context"
+	"fmt"
+	"io"
 	"maps"
+	"net/http"
+	"sync"
+	"time"
 
 	"github.com/QuantumNous/new-api/common"
 	"github.com/QuantumNous/new-api/model"
@@ -35,7 +41,82 @@ func filterPricingByUsableGroups(pricing []model.Pricing, usableGroup map[string
 	return filtered
 }
 
+// pricingSourceCache mirrors the /api/pricing response of another new-api
+// instance named by PRICING_SOURCE_URL, so the model square can show that
+// catalog. It only affects what the page displays; billing on this site still
+// uses the local ratios.
+type pricingSourceCache struct {
+	sync.Mutex
+	body      []byte
+	fetchedAt time.Time
+}
+
+const pricingSourceTTL = time.Minute
+
+var pricingSource pricingSourceCache
+
+// Get returns the cached body while it is fresh, refetches it otherwise, and
+// keeps serving the last good body when the source is unreachable.
+func (p *pricingSourceCache) Get(ctx context.Context, client *http.Client, sourceURL string) ([]byte, error) {
+	p.Lock()
+	defer p.Unlock()
+	if p.body != nil && time.Since(p.fetchedAt) < pricingSourceTTL {
+		return p.body, nil
+	}
+
+	body, err := fetchPricingSource(ctx, client, sourceURL)
+	if err != nil {
+		if p.body != nil {
+			return p.body, nil
+		}
+		return nil, err
+	}
+	p.body = body
+	p.fetchedAt = time.Now()
+	return body, nil
+}
+
+func fetchPricingSource(ctx context.Context, client *http.Client, sourceURL string) ([]byte, error) {
+	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
+	defer cancel()
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, sourceURL, nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("pricing source returned status %d", resp.StatusCode)
+	}
+	body, err := io.ReadAll(io.LimitReader(resp.Body, 16<<20))
+	if err != nil {
+		return nil, err
+	}
+	var check struct {
+		Success bool `json:"success"`
+	}
+	if err := common.Unmarshal(body, &check); err != nil {
+		return nil, err
+	}
+	if !check.Success {
+		return nil, fmt.Errorf("pricing source reported failure")
+	}
+	return body, nil
+}
+
 func GetPricing(c *gin.Context) {
+	if sourceURL := common.GetEnvOrDefaultString("PRICING_SOURCE_URL", ""); sourceURL != "" {
+		body, err := pricingSource.Get(c.Request.Context(), service.GetHttpClient(), sourceURL)
+		if err == nil {
+			c.Data(http.StatusOK, "application/json; charset=utf-8", body)
+			return
+		}
+		common.SysError(common.LogText("pricing source fetch failed, serving local pricing: %s", err.Error()))
+	}
+
 	pricing := model.GetPricing()
 	userId, exists := c.Get("id")
 	usableGroup := map[string]string{}

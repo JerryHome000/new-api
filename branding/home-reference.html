@@ -1,0 +1,393 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&display=swap');
+
+  .om { --bg: #fafaf7; --fg: #080808; --mute: #6b6b68; --line: rgba(8,8,8,.14); --card: #ffffff; --accent: #7fa300; --accent-fill: #ccff00;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, "PingFang SC", "Noto Sans SC", sans-serif; color: var(--fg); background: var(--bg); line-height: 1.5; -webkit-font-smoothing: antialiased; padding-top: 4.25rem; }
+  .dark .om { --bg: #050505; --fg: #fafaf7; --mute: #a9aaa7; --line: #2a2a2a; --card: #0c0c0c; --accent: #ccff00; --accent-fill: #ccff00; }
+  .om * { box-sizing: border-box; }
+  .om a { color: inherit; text-decoration: none; }
+  .om-wrap { max-width: 80rem; margin: 0 auto; padding: 0 2rem; }
+  .om-mono { font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .om-serif { font-family: "Instrument Serif", Georgia, "Times New Roman", serif; font-style: italic; font-weight: 400; letter-spacing: -.02em; }
+  .om-label { font-family: "DM Mono", ui-monospace, Menlo, monospace; font-size: .625rem; letter-spacing: .12em; text-transform: uppercase; color: var(--mute); }
+  .om-line { border-top: 1px solid var(--line); }
+  .om-arr { font-family: "DM Mono", monospace; font-size: .9em; }
+
+  /* top strip */
+  .om-strip { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .4rem 1.5rem; padding: 1.1rem 0; border-bottom: 1px solid var(--line); }
+  .om-hero > div, .om-row > div, .om-next > div, .om-qs > div, .om-stats > div { min-width: 0; }
+
+  /* hero */
+  .om-hero { display: grid; grid-template-columns: 1fr; gap: 3rem; padding: 3.5rem 0 3rem; align-items: end; }
+  @media (min-width: 64rem) { .om-hero { grid-template-columns: 1.05fr 1fr; gap: 4rem; padding: 4.5rem 0 4rem; } }
+  .om-h1 { font-size: clamp(3.4rem, 8.2vw, 6.4rem); line-height: .98; font-weight: 500; letter-spacing: -.065em; margin: 1.4rem 0 0; }
+  .om-h1 .om-serif { font-size: 1.04em; }
+  .om-h1 .ac { color: var(--accent); }
+
+  /* reference-style hero panel */
+  .om-panel { border: 1px solid var(--line); background: var(--card); margin-top: 2rem; position: relative; overflow: hidden; }
+  .om-panel::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(60% 60% at 90% 10%, rgba(204,255,0,.07), transparent 70%); }
+  .om-panel .om-hero { padding: 3rem 2rem 2.6rem; }
+  @media (min-width: 64rem) { .om-panel .om-hero { padding: 3.6rem 3rem 3.2rem; } }
+  .om-kick { font-family: "DM Mono", monospace; font-size: .78rem; color: var(--mute); margin-bottom: 1.1rem; }
+  .om-kick b { color: var(--accent); font-weight: 500; }
+  .om-h1.cn { font-size: clamp(2.6rem, 6vw, 4.6rem); letter-spacing: -.04em; line-height: 1.12; font-weight: 600; }
+  .om-lead2 { margin: 1.6rem 0 0; font-size: 1.02rem; line-height: 1.75; color: var(--mute); max-width: 30rem; }
+  .om-lead2 b { color: var(--fg); font-weight: 500; }
+  .om-fact { font-family: "DM Mono", monospace; font-size: .76rem; color: var(--mute); margin-top: 1.1rem; }
+  .om-fact b { color: var(--accent); font-weight: 500; }
+  .om-cmd { display: inline-flex; align-items: center; gap: .5rem; height: 3rem; padding: 0 1.1rem; border: 1px solid var(--line); background: var(--bg); font-family: "DM Mono", monospace; font-size: .8rem; color: var(--fg); transition: border-color .15s; }
+  .om-cmd:hover { border-color: var(--fg); }
+  .om-cmd i { color: var(--accent); font-style: normal; }
+  .om-brand { display: flex; justify-content: space-between; align-items: end; gap: 1rem; margin-top: 1.4rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
+  .om-brand .nm { font-size: 1.6rem; font-weight: 600; letter-spacing: -.04em; line-height: 1; }
+  .om-brand .tg { font-size: .8rem; color: var(--mute); margin-top: .5rem; }
+  .om-pill { display: inline-flex; align-items: center; gap: .55rem; border: 1px solid var(--line); padding: .45rem .8rem; font-family: "DM Mono", monospace; font-size: .68rem; color: var(--mute); white-space: nowrap; }
+  .om-pill i { width: .45rem; height: .45rem; border-radius: 999px; background: var(--accent); box-shadow: 0 0 0 3px rgba(204,255,0,.18); }
+  .om-pill b { color: var(--fg); font-weight: 500; }
+  .om-tick { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1.8rem; padding: .9rem 1.4rem; border: 1px solid var(--line); border-top: 0; font-family: "DM Mono", monospace; font-size: .72rem; color: var(--mute); background: var(--card); }
+  .om-tick span b { color: var(--accent); font-weight: 500; }
+  .om-tick span::before { content: "●"; font-size: .5rem; vertical-align: middle; margin-right: .5rem; color: var(--accent); }
+  .om-tick a { margin-left: auto; color: var(--fg); }
+  .om-tick a::before { content: none; }
+
+  /* three steps section */
+  .om-3 { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 2.2rem; }
+  @media (min-width: 48rem) { .om-3 { grid-template-columns: repeat(3, 1fr); } }
+  .om-3 > div { background: var(--card); padding: 1.5rem 1.4rem 1.6rem; }
+  .om-3 .n { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; background: var(--accent-fill); color: #080808; font-family: "DM Mono", monospace; font-size: .72rem; font-weight: 500; }
+  .om-3 h3 { margin: 1rem 0 .4rem; font-size: 1.1rem; font-weight: 500; letter-spacing: -.02em; }
+  .om-3 p { margin: 0; font-size: .86rem; color: var(--mute); line-height: 1.6; }
+  .om-lead { display: flex; gap: 1rem; margin: 2.4rem 0 0; max-width: 30rem; }
+  .om-lead i { flex: none; width: 1px; background: var(--line); }
+  .om-lead p { margin: 0; font-size: .95rem; line-height: 1.65; color: var(--mute); }
+  .om-lead p b { color: var(--fg); font-weight: 500; }
+  .om-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 1.75rem; margin-top: 2.2rem; }
+  .om a.om-btn { color: #080808; }
+  .om-btn { display: inline-flex; align-items: center; gap: 1.6rem; height: 3rem; padding: 0 1.1rem 0 1.25rem; font-size: .85rem; font-weight: 500; border: 1px solid var(--accent-fill); background: var(--accent-fill); color: #080808; transition: opacity .15s; }
+  .om-btn:hover { opacity: .85; }
+  .om-link { display: inline-flex; align-items: center; gap: .5rem; font-size: .85rem; font-weight: 500; }
+  .om-link:hover { text-decoration: underline; text-underline-offset: .25em; }
+
+  /* request card */
+  .om-req { border: 1px solid var(--line); background: var(--card); }
+  .om-req-bar { display: flex; justify-content: space-between; align-items: center; padding: .8rem 1rem; border-bottom: 1px solid var(--line); }
+  .om-req-bar .ok { color: var(--accent); }
+  .om-req pre { margin: 0; padding: 1.15rem 1.1rem 1.3rem; font-size: .76rem; line-height: 1.7; overflow-x: auto; color: var(--fg); }
+  .om-req .c, .om-req .s { color: var(--mute); }
+  .om-req .k { color: var(--accent); }
+  .om-under { display: flex; justify-content: space-between; align-items: end; padding-top: 1.2rem; margin-top: 1.2rem; border-top: 1px solid var(--line); }
+  .om-under h4 { margin: .4rem 0 0; font-size: 1.25rem; font-weight: 500; letter-spacing: -.02em; display: flex; align-items: center; gap: .5rem; }
+  .om-under h4 .v { color: var(--accent); font-size: .9em; }
+
+  /* steps strip */
+  .om-steps { display: grid; grid-template-columns: 1fr; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  @media (min-width: 48rem) { .om-steps { grid-template-columns: repeat(3, 1fr); } }
+  .om-step { display: flex; align-items: center; gap: 1rem; padding: 1.15rem 1.25rem; font-size: .85rem; font-weight: 500; border-bottom: 1px solid var(--line); }
+  @media (min-width: 48rem) { .om-step { border-bottom: 0; border-right: 1px solid var(--line); } .om-step:last-child { border-right: 0; } }
+  .om-step .n { color: var(--mute); font-size: .625rem; }
+  .om-step .om-arr { margin-left: auto; }
+  .om-step.soon { color: var(--mute); }
+  .om-step .tag { margin-left: auto; font-size: .6rem; letter-spacing: .12em; color: var(--mute); }
+
+  /* sections */
+  .om-sec { padding: 4.5rem 0 4rem; }
+  .om-sec-head { display: flex; justify-content: space-between; align-items: end; gap: 2rem; margin-top: 1rem; }
+  .om-h2 { font-size: clamp(1.9rem, 3.2vw, 2.6rem); font-weight: 500; letter-spacing: -.05em; line-height: 1.05; margin: 0; }
+  .om-h2.big { font-size: clamp(2.6rem, 5.2vw, 4.2rem); }
+  .om-sub { margin: .9rem 0 0; font-size: .92rem; color: var(--mute); max-width: 34rem; line-height: 1.65; }
+  .om-live { display: inline-flex; align-items: center; gap: .6rem; font-size: .7rem; color: var(--mute); }
+  .om-live i { width: 1.6rem; height: 1.6rem; border: 1px solid var(--line); display: inline-flex; align-items: center; justify-content: center; font-style: normal; font-size: .7rem; }
+
+  /* stats */
+  .om-stats { display: grid; grid-template-columns: 1fr; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  @media (min-width: 48rem) { .om-stats { grid-template-columns: repeat(3, 1fr); } }
+  .om-stats > div { padding: 2rem 1.6rem 2.1rem 0; border-bottom: 1px solid var(--line); }
+  @media (min-width: 48rem) { .om-stats > div { border-bottom: 0; border-right: 1px solid var(--line); padding-left: 1.6rem; } .om-stats > div:first-child { padding-left: 0; } .om-stats > div:last-child { border-right: 0; } }
+  .om-stats .big { font-size: clamp(2.8rem, 5vw, 4rem); font-weight: 500; letter-spacing: -.05em; line-height: 1; }
+  .om-stats .big small { font-size: .35em; letter-spacing: 0; color: var(--mute); margin-left: .3em; font-family: "DM Mono", monospace; }
+  .om-stats h3 { margin: 1.1rem 0 .35rem; font-size: 1.05rem; font-weight: 500; letter-spacing: -.02em; }
+  .om-stats p { margin: 0; font-size: .86rem; color: var(--mute); line-height: 1.6; }
+
+  /* model rows */
+  .om-rows { margin-top: 2.2rem; border-top: 1px solid var(--line); }
+  .om-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; padding: 1.4rem 0; border-bottom: 1px solid var(--line); align-items: center; }
+  .om-row > .om-sq, .om-row > .om-arr { display: none; }
+  .om-row > div:nth-child(2) { grid-column: 1 / -1; }
+  @media (min-width: 64rem) { .om-row { grid-template-columns: 3.4rem 17rem repeat(3, 1fr) 2rem; gap: 1.5rem; } .om-row > .om-sq { display: flex; } .om-row > .om-arr { display: block; } .om-row > div:nth-child(2) { grid-column: auto; } }
+  .om-sq { width: 3.4rem; height: 3.4rem; border: 1px solid var(--line); background: var(--card); display: flex; align-items: center; justify-content: center; font-family: "DM Mono", monospace; font-size: .75rem; letter-spacing: .05em; }
+  .om-row h4 { margin: .35rem 0 .3rem; font-size: 1.15rem; font-weight: 500; letter-spacing: -.02em; display: flex; align-items: center; gap: .45rem; }
+  .om-row h4 .v { color: var(--accent); font-size: .85em; }
+  .om-row .sub { font-size: .72rem; color: var(--mute); }
+  .om-stat b { display: block; font-size: 1.15rem; font-weight: 500; letter-spacing: -.02em; margin: .25rem 0 .2rem; }
+  .om-stat b.on { color: var(--accent); }
+  .om-row .om-arr { justify-self: end; font-size: 1.1rem; }
+  .om-note { font-size: .7rem; color: var(--mute); margin-top: 1rem; }
+
+  /* quick start */
+  .om-qs { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 2.2rem; }
+  @media (min-width: 48rem) { .om-qs { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 64rem) { .om-qs { grid-template-columns: repeat(3, 1fr); } }
+  .om-qs > div { background: var(--card); padding: 1.1rem 1.2rem 1.25rem; }
+  .om-qs-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: .9rem; }
+  .om-qs-head b { font-size: .95rem; font-weight: 500; letter-spacing: -.01em; }
+  .om-qs pre { margin: 0; font-size: .72rem; line-height: 1.7; overflow-x: auto; color: var(--fg); white-space: pre; }
+  .om-qs .c { color: var(--mute); }
+  .om-qs .k { color: var(--accent); }
+  .om-qs-note { font-size: .72rem; color: var(--mute); margin-top: .8rem; }
+
+  /* three columns (why / built for) */
+  .om-why { display: grid; grid-template-columns: 1fr; margin-top: 2.5rem; border-top: 1px solid var(--line); }
+  @media (min-width: 48rem) { .om-why { grid-template-columns: repeat(3, 1fr); } .om-why.four { grid-template-columns: repeat(4, 1fr); } }
+  .om-why > div { padding: 1.6rem 1.5rem 1.8rem 0; border-bottom: 1px solid var(--line); }
+  @media (min-width: 48rem) { .om-why > div { border-bottom: 0; border-right: 1px solid var(--line); padding-left: 1.5rem; } .om-why > div:first-child { padding-left: 0; } .om-why > div:last-child { border-right: 0; } }
+  .om-why h3 { margin: 1rem 0 .55rem; font-size: 1.2rem; font-weight: 500; letter-spacing: -.03em; }
+  .om-why.four h3 { font-size: 1.05rem; }
+  .om-why p { margin: 0; font-size: .88rem; line-height: 1.65; color: var(--mute); }
+  .om-why small { display: block; margin-top: .9rem; font-size: .68rem; color: var(--mute); letter-spacing: .02em; }
+
+  /* faq */
+  .om-faq { display: grid; grid-template-columns: 1fr; gap: 3rem; align-items: start; }
+  @media (min-width: 64rem) { .om-faq { grid-template-columns: 1fr 1.4fr; gap: 4rem; } }
+  .om-faq details { border-top: 1px solid var(--line); }
+  .om-faq details:last-child { border-bottom: 1px solid var(--line); }
+  .om-faq summary { list-style: none; cursor: pointer; display: flex; align-items: baseline; gap: 1.2rem; padding: 1.1rem 0; font-size: 1rem; font-weight: 500; letter-spacing: -.01em; }
+  .om-faq summary::-webkit-details-marker { display: none; }
+  .om-faq summary .n { font-family: "DM Mono", monospace; font-size: .65rem; color: var(--mute); letter-spacing: .1em; flex: none; width: 1.6rem; }
+  .om-faq summary::after { content: "+"; margin-left: auto; font-family: "DM Mono", monospace; color: var(--mute); }
+  .om-faq details[open] summary::after { content: "–"; }
+  .om-faq details p { margin: 0 0 1.2rem 2.8rem; font-size: .88rem; line-height: 1.65; color: var(--mute); }
+
+  /* next + footer */
+  .om-next { display: grid; grid-template-columns: 1fr; gap: 2.5rem; align-items: start; }
+  @media (min-width: 64rem) { .om-next { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+  .om-box { display: inline-flex; border: 1px solid var(--line); padding: .55rem .9rem; margin-bottom: 1.4rem; }
+  .om-next p { margin: 0 0 1.6rem; font-size: .95rem; line-height: 1.65; color: var(--mute); max-width: 28rem; }
+  .om-foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.6rem 0 2.2rem; border-top: 1px solid var(--line); }
+  .om-foot .brand { display: flex; align-items: center; gap: .9rem; font-weight: 600; letter-spacing: -.02em; font-size: 1.05rem; }
+  .om-foot .brand i { width: 1px; height: 1.1rem; background: var(--line); }
+  .om-foot nav { display: flex; gap: 1.6rem; font-size: .78rem; }
+</style>
+
+<div class="om">
+  <div class="om-wrap">
+
+    <div class="om-strip om-label"><span>OPENAI-COMPATIBLE / MODEL ROUTING</span><span>OMNI / 001</span></div>
+
+    <div class="om-panel">
+    <section class="om-hero">
+      <div>
+        <div class="om-kick"><b>omni@api</b>:~# summon --brains all</div>
+        <div class="om-label">ONE BASE URL. THE BEST BRAINS ON CALL.</div>
+        <h1 class="om-h1 cn">顶尖模型，<br><span class="ac">一个入口。</span></h1>
+        <p class="om-lead2">花很少的钱，雇一支随叫随到的模型团队。<br><b>早一天接入，早一天上线。</b></p>
+        <div class="om-fact">一个 Base URL 接入 <b>GPT、Claude、Gemini</b>。按 token 计费，<b>没有月费</b>。</div>
+        <div class="om-cta">
+          <a class="om-btn" href="/sign-up">立即开始 <span class="om-arr">→</span></a>
+          <a class="om-cmd" href="/pricing"><i>$</i> ls models</a>
+          <a class="om-cmd" href="/playground"><i>$</i> ping playground</a>
+        </div>
+      </div>
+      <div>
+        <div class="om-req">
+          <div class="om-req-bar om-label"><span>POST /v1/chat/completions</span><span class="ok">200 OK · 412ms</span></div>
+<pre class="om-mono">curl https://api.omni.dev/v1/chat/completions \
+  -H <span class="s">"Authorization: Bearer sk-omni-…"</span> \
+  -d <span class="s">'{
+    "model": <span class="k">"claude-sonnet-5-5"</span>,
+    "messages": [{"role": "user", "content": "hi"}]
+  }'</span>
+
+<span class="c"># swap the model, keep everything else</span>
+<span class="c"># gpt-5.5 · gemini-3-pro · deepseek-v4 · qwen-4</span></pre>
+        </div>
+        <div class="om-brand">
+          <div><div class="nm">OMNI</div><div class="om-label" style="margin-top:.45rem">OMNI TERMINAL</div><div class="tg">一个入口，全部上班</div></div>
+          <div class="om-pill"><i></i>now serving <b>Claude</b></div>
+        </div>
+      </div>
+    </section>
+    </div>
+    <div class="om-tick">
+      <span><b>1</b> URL · <b>3</b> 协议</span>
+      <span>GPT <b>live</b></span>
+      <span>Claude <b>live</b></span>
+      <span>Gemini <b>live</b></span>
+      <span>DeepSeek <b>live</b></span>
+      <span>Qwen <b>live</b></span>
+      <a href="/pricing">查看模型 ↗</a>
+    </div>
+  </div>
+
+  <div class="om-wrap">
+    <section class="om-sec">
+      <div class="om-label">02 / BY THE NUMBERS</div>
+      <div class="om-stats" style="margin-top:1.6rem">
+        <div><div class="big">1 <small>URL</small></div><h3>一个 Base URL，三家模型</h3><p>GPT、Claude、Gemini 走同一个地址。换模型不用重写产品，也不用维护三套 SDK。</p></div>
+        <div><div class="big">3 <small>PROTOCOLS</small></div><h3>OpenAI · Claude · Gemini 原生协议</h3><p>Claude Code 走 Anthropic 协议，Codex 走 OpenAI 协议，Gemini CLI 走 Gemini 协议——都直接接，不用转换层。</p></div>
+        <div><div class="big">0 <small>MONTHLY</small></div><h3>没有月费，用多少付多少</h3><p>按 token 扣，余额和每一笔账单在控制台实时可见。没用的额度留在账户里。</p></div>
+      </div>
+    </section>
+
+    <section class="om-sec om-line">
+      <div class="om-label">03 / MODEL INDEX</div>
+      <div class="om-sec-head">
+        <h2 class="om-h2">Start with the frontier.</h2>
+        <a class="om-live om-mono" href="/pricing">Live pricing <i>↗</i></a>
+      </div>
+      <div class="om-rows">
+        <a class="om-row" href="/pricing">
+          <div class="om-sq">AN</div>
+          <div><div class="om-label">ANTHROPIC / CLAUDE PROTOCOL</div><h4>claude-sonnet-5-5 <span class="v">✓</span></h4><div class="sub">Claude 或 OpenAI 协议 · 流式</div></div>
+          <div class="om-stat"><div class="om-label">Protocols</div><b>OpenAI · Claude</b></div>
+          <div class="om-stat"><div class="om-label">Upstreams</div><b>Multi</b></div>
+          <div class="om-stat"><div class="om-label">Status</div><b class="on">Live</b></div>
+          <span class="om-arr">↗</span>
+        </a>
+        <a class="om-row" href="/pricing">
+          <div class="om-sq">OA</div>
+          <div><div class="om-label">OPENAI / RESPONSES + CHAT</div><h4>gpt-5.5 <span class="v">✓</span></h4><div class="sub">Chat Completions 或 Responses · 流式</div></div>
+          <div class="om-stat"><div class="om-label">Protocols</div><b>OpenAI</b></div>
+          <div class="om-stat"><div class="om-label">Upstreams</div><b>Multi</b></div>
+          <div class="om-stat"><div class="om-label">Status</div><b class="on">Live</b></div>
+          <span class="om-arr">↗</span>
+        </a>
+        <a class="om-row" href="/pricing">
+          <div class="om-sq">GG</div>
+          <div><div class="om-label">GOOGLE / GEMINI PROTOCOL</div><h4>gemini-3-pro <span class="v">✓</span></h4><div class="sub">Gemini 或 OpenAI 协议 · 多模态</div></div>
+          <div class="om-stat"><div class="om-label">Protocols</div><b>OpenAI · Gemini</b></div>
+          <div class="om-stat"><div class="om-label">Upstreams</div><b>Multi</b></div>
+          <div class="om-stat"><div class="om-label">Status</div><b class="on">Live</b></div>
+          <span class="om-arr">↗</span>
+        </a>
+      </div>
+      <div class="om-note om-mono">Routing table synced live · Prices on /pricing · Billed per token · No subscription</div>
+    </section>
+
+    <section class="om-sec om-line">
+      <div class="om-label">04 / QUICK START</div>
+      <div class="om-sec-head">
+        <div>
+          <h2 class="om-h2">Point it at Omni.<br>That's the whole setup.</h2>
+          <p class="om-sub">所有 OpenAI / Anthropic / Gemini 兼容的客户端，只改两个环境变量：Base URL 和 Key。下面是最常用的六个。</p>
+        </div>
+      </div>
+      <div class="om-qs om-mono">
+        <div>
+          <div class="om-qs-head"><b>Claude Code</b><span class="om-label">ANTHROPIC PROTOCOL</span></div>
+<pre>export ANTHROPIC_BASE_URL=<span class="k">https://api.omni.dev</span>
+export ANTHROPIC_AUTH_TOKEN=<span class="k">sk-omni-…</span>
+claude</pre>
+        </div>
+        <div>
+          <div class="om-qs-head"><b>Codex CLI</b><span class="om-label">OPENAI PROTOCOL</span></div>
+<pre>export OPENAI_BASE_URL=<span class="k">https://api.omni.dev/v1</span>
+export OPENAI_API_KEY=<span class="k">sk-omni-…</span>
+codex</pre>
+        </div>
+        <div>
+          <div class="om-qs-head"><b>Gemini CLI</b><span class="om-label">GEMINI PROTOCOL</span></div>
+<pre>export GOOGLE_GEMINI_BASE_URL=<span class="k">https://api.omni.dev</span>
+export GEMINI_API_KEY=<span class="k">sk-omni-…</span>
+gemini</pre>
+        </div>
+        <div>
+          <div class="om-qs-head"><b>Python</b><span class="om-label">OPENAI SDK</span></div>
+<pre>from openai import OpenAI
+client = OpenAI(
+  base_url=<span class="k">"https://api.omni.dev/v1"</span>,
+  api_key=<span class="k">"sk-omni-…"</span>)</pre>
+        </div>
+        <div>
+          <div class="om-qs-head"><b>Node</b><span class="om-label">OPENAI SDK</span></div>
+<pre>import OpenAI from "openai";
+const client = new OpenAI({
+  baseURL: <span class="k">"https://api.omni.dev/v1"</span>,
+  apiKey: <span class="k">"sk-omni-…"</span> });</pre>
+        </div>
+        <div>
+          <div class="om-qs-head"><b>Cursor · Cherry Studio</b><span class="om-label">GUI</span></div>
+<pre><span class="c"># Settings → Models → OpenAI-compatible</span>
+Base URL  <span class="k">https://api.omni.dev/v1</span>
+API Key   <span class="k">sk-omni-…</span></pre>
+        </div>
+      </div>
+      <div class="om-qs-note om-mono">Base URL 带不带 /v1 取决于客户端；SDK 类带，CLI 类大多不带。控制台的「API 密钥」页有每个客户端的一键复制。</div>
+    </section>
+
+    <section class="om-sec om-line">
+      <div class="om-label">05 / WHY OMNI</div>
+      <h2 class="om-h2 big" style="margin-top:1rem">Built for <span class="om-serif">shipping</span>,<br>not for choosing.</h2>
+      <div class="om-why">
+        <div><div class="om-label">01 / PROTOCOL</div><h3>No sides to pick.</h3><p>OpenAI、Claude、Gemini 三套协议互转。今天用哪家、明天换哪家，SDK 一行不改。</p><small class="om-mono">OPENAI · CLAUDE · GEMINI</small></div>
+        <div><div class="om-label">02 / BILLING</div><h3>Pay for what you burn.</h3><p>每个模型明码标价，按 token 扣。没有月费、没有套路，余额和账单实时看。</p><small class="om-mono">PER TOKEN · NO SUBSCRIPTION</small></div>
+        <div><div class="om-label">03 / ROUTING</div><h3>Always on.</h3><p>同一个模型挂多条上游，哪条抽风就切哪条。你的应用不背锅。</p><small class="om-mono">MULTI-UPSTREAM · AUTO FAILOVER</small></div>
+      </div>
+    </section>
+
+    <section class="om-sec om-line">
+      <div class="om-label">06 / BUILT FOR</div>
+      <h2 class="om-h2" style="margin-top:1rem">One person. <span class="om-serif">A room full of experts.</span></h2>
+      <div class="om-why four">
+        <div><div class="om-label">01</div><h3>学生和研究者</h3><p>偶尔用一次，就付一次的钱。预算留给生活，最好的模型照样用。</p></div>
+        <div><div class="om-label">02</div><h3>独立开发者</h3><p>Claude Code 和 Codex 照旧用，少维护一层接口，早点把产品发出去。</p></div>
+        <div><div class="om-label">03</div><h3>团队和初创</h3><p>原型期不签年约，业务涨了按调用量扩。预算花在用户身上。</p></div>
+        <div><div class="om-label">04</div><h3>重度用户</h3><p>GPT、Claude、Gemini 随时切。哪个更适合当前任务，就让哪个上。</p></div>
+      </div>
+    </section>
+
+    <section class="om-sec om-line">
+      <div class="om-label">07 / THREE STEPS · ZERO CEREMONY</div>
+      <div class="om-sec-head">
+        <div>
+          <h2 class="om-h2">三步，把最聪明的模型叫来干活。</h2>
+          <p class="om-sub">不用先开会，也不用先读完一整本接入文档。</p>
+        </div>
+      </div>
+      <div class="om-3">
+        <div><span class="n">01</span><h3>拿到钥匙</h3><p>注册账户，在控制台创建自己的 API Key。</p></div>
+        <div><span class="n">02</span><h3>先充一点试试</h3><p>注册送试用额度，不用绑卡。先让模型干活，再决定要不要多充。</p></div>
+        <div><span class="n">03</span><h3>把需求交出去</h3><p>替换 Base URL，选择模型，发出第一次请求。</p></div>
+      </div>
+    </section>
+
+    <section class="om-sec om-line">
+      <div class="om-faq">
+        <div>
+          <div class="om-label">08 / FAQ</div>
+          <h2 class="om-h2" style="margin-top:1rem">Cheap is fine.<br><span class="om-serif">Clear is better.</span></h2>
+          <p class="om-sub">便宜归便宜，账还是要问明白。</p>
+        </div>
+        <div>
+          <details open><summary><span class="n">01</span>需要自己准备 OpenAI、Anthropic 或 Google 账号吗？</summary><p>不需要。注册 Omni、创建一个 API Key，就能从同一个入口调用所有开放的模型。上游账号、配额、网络都由我们维护。</p></details>
+          <details><summary><span class="n">02</span>怎么计费？</summary><p>按 token，每个模型的输入 / 输出单价都列在模型广场。请求结束立即扣费，控制台能看到每一笔的模型、token 数和金额。没有月费，没有最低消费。</p></details>
+          <details><summary><span class="n">03</span>我现有的代码要改多少？</summary><p>两行：Base URL 和 Key。OpenAI SDK、Anthropic SDK、Gemini SDK 都直接兼容，Claude Code、Codex、Cursor、Cherry Studio 这类客户端只改设置。</p></details>
+          <details><summary><span class="n">04</span>上游挂了怎么办？</summary><p>同一个模型背后挂了多条上游线路，一条失败自动切到下一条。你那边看到的只是一次正常响应。</p></details>
+          <details><summary><span class="n">05</span>调用不正常去哪里看？</summary><p>控制台的「使用日志」按请求列出状态码、耗时、模型和错误原因；「数据看板」看整体错误率和延迟。</p></details>
+          <details><summary><span class="n">06</span>支持流式和多模态吗？</summary><p>支持。Chat Completions、Responses、Messages 三种接口都支持 stream；图片、音频、embedding、rerank 按模型能力开放。</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="om-sec om-line">
+      <div class="om-label">09 / WHAT COMES NEXT</div>
+      <div class="om-next" style="margin-top:1rem">
+        <h2 class="om-h2 big">A key for<br><span class="om-serif">your next build.</span></h2>
+        <div>
+          <div class="om-box om-label">FREE CREDITS / ON SIGN-UP</div>
+          <p>注册送试用额度，不用绑卡。三十秒跑通第一个请求。</p>
+          <a class="om-link" href="/sign-up">Create account <span class="om-arr">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="om-foot">
+      <div class="brand">OMNI <i></i> <span class="om-label">ON OPENAI PROTOCOL</span></div>
+      <nav>
+        <a class="om-link" href="/pricing">Models <span class="om-arr">↗</span></a>
+        <a class="om-link" href="/about">About <span class="om-arr">↗</span></a>
+        <a class="om-link" href="/dashboard">Console <span class="om-arr">↗</span></a>
+      </nav>
+    </footer>
+  </div>
+</div>

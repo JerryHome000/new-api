@@ -45,6 +45,12 @@ type AuthPromptTarget = {
   href: string
 }
 
+/** A nav link stays active on its sub-pages, e.g. Docs on /docs/guide. */
+function isNavLinkActive(pathname: string, href: string): boolean {
+  if (href === '/') return pathname === '/'
+  return pathname === href || pathname.startsWith(`${href}/`)
+}
+
 export interface PublicHeaderProps {
   navLinks?: TopNavLink[]
   mobileLinks?: TopNavLink[]
@@ -240,7 +246,7 @@ export function PublicHeader(props: PublicHeaderProps) {
             {/* Desktop nav */}
             <div className='hidden min-w-0 items-center gap-0.5 lg:flex'>
               {links.map((link) => {
-                const isActive = pathname === link.href
+                const isActive = isNavLinkActive(pathname, link.href)
                 if (link.external) {
                   return (
                     <a
@@ -362,7 +368,7 @@ export function PublicHeader(props: PublicHeaderProps) {
         <div className='flex h-full flex-col justify-between px-8 pt-20 pb-10'>
           <nav className='flex flex-col gap-1'>
             {links.map((link, i) => {
-              const isActive = pathname === link.href
+              const isActive = isNavLinkActive(pathname, link.href)
               const linkClassName = cn(
                 'flex items-center gap-3 py-3 text-base font-medium tracking-tight transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]',
                 mobileOpen

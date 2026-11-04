@@ -16,18 +16,21 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { PublicLayout } from '@/components/layout'
 import { Footer } from '@/components/layout/components/footer'
 import { RichContent } from '@/components/rich-content'
 import { useTheme } from '@/context/theme-provider'
+import { usePricingData } from '@/features/pricing/hooks/use-pricing-data'
+import { toIntlLocale } from '@/i18n/languages'
 import { isLikelyHtml } from '@/lib/content-format'
 import { useAuthStore } from '@/stores/auth-store'
 
 import { CTA, Features, Hero, HowItWorks, Stats } from './components'
 import { useHomePageContent } from './hooks'
+import { renderHomePageContent } from './lib/render-home-content'
 
 export function Home() {
   const { i18n, t } = useTranslation()
@@ -36,6 +39,28 @@ export function Home() {
   const { auth } = useAuthStore()
   const isAuthenticated = !!auth.user
   const { content, isLoaded, isUrl } = useHomePageContent()
+  const catalog = usePricingData(content.includes('data-home-stat'))
+  const locale = toIntlLocale(i18n.resolvedLanguage || i18n.language)
+  const homeContent = useMemo(
+    () =>
+      renderHomePageContent(
+        content,
+        t,
+        locale,
+        !catalog.isLoading && !catalog.error
+          ? { models: catalog.models, vendors: catalog.vendors }
+          : undefined
+      ),
+    [
+      content,
+      t,
+      locale,
+      catalog.models,
+      catalog.vendors,
+      catalog.isLoading,
+      catalog.error,
+    ]
+  )
 
   const syncIframePreferences = useCallback(() => {
     try {
@@ -100,7 +125,7 @@ export function Home() {
           <RichContent
             mode='html'
             htmlVariant='isolated'
-            content={content}
+            content={homeContent}
             className='custom-home-content'
           />
         </PublicLayout>

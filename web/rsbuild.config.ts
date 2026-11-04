@@ -97,6 +97,12 @@ export default defineConfig(({ envMode }) => {
             autoCodeSplitting: isProd,
           }),
         ],
+        module: {
+          // Docs pages import their Markdown source as a string (`*.md?raw`).
+          rules: [
+            { test: /\.md$/, resourceQuery: /raw/, type: 'asset/source' },
+          ],
+        },
       },
     },
   }
