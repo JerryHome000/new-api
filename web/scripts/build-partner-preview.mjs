@@ -30,8 +30,13 @@ if (!destination || !['http:', 'https:'].includes(source.protocol)) {
   )
 }
 const manifestPath = path.join(destination, '.openai/hosting.json')
-const manifest = JSON.parse(await readFile(manifestPath, 'utf8'))
-if (!manifest.project_id) {
+let manifest = null
+try {
+  manifest = JSON.parse(await readFile(manifestPath, 'utf8'))
+} catch (error) {
+  if (error.code !== 'ENOENT') throw error
+}
+if (manifest && !manifest.project_id) {
   throw new Error('Create the preview Site before building')
 }
 
@@ -178,7 +183,10 @@ const index = path.join(output, 'index.html')
 const html = await readFile(index, 'utf8')
 await writeFile(
   index,
-  html.replace('<head>', '<head><script src="/partner-preview.js"></script>')
+  html.replace(
+    '<head>',
+    '<head><meta name="app-preview" content="read-only"><script src="/partner-preview.js"></script>'
+  )
 )
 for (const filename of ['LICENSE', 'NOTICE', 'THIRD-PARTY-LICENSES.md']) {
   await cp(path.join(repository, filename), path.join(output, filename))
@@ -187,12 +195,14 @@ await writeFile(
   path.join(output, '_headers'),
   '/api/*\n  Content-Type: application/json; charset=utf-8\n  Cache-Control: no-store\n'
 )
-manifest.static = {
-  ...manifest.static,
-  directory: 'dist',
-  not_found_handling: 'single-page-application',
+if (manifest) {
+  manifest.static = {
+    ...manifest.static,
+    directory: 'dist',
+    not_found_handling: 'single-page-application',
+  }
+  await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`)
 }
-await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`)
 const commit = execFileSync('git', ['rev-parse', 'HEAD'], {
   cwd: repository,
   encoding: 'utf8',

@@ -18,7 +18,7 @@ For commercial licensing, please contact support@quantumnous.com
 */
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link } from '@tanstack/react-router'
-import { Loader2, LogIn, KeyRound } from 'lucide-react'
+import { Info, Loader2, LogIn, KeyRound } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -28,6 +28,7 @@ import type { z } from 'zod'
 import { Dialog } from '@/components/dialog'
 import { PasswordInput } from '@/components/password-input'
 import { Turnstile } from '@/components/turnstile'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -66,6 +67,13 @@ export function UserAuthForm({
   ...props
 }: AuthFormProps) {
   const { t } = useTranslation()
+  // Generated previews declare their mode before the application loads, so
+  // fields stay read-only even while the public status request is pending.
+  const readOnlyPreview =
+    typeof document !== 'undefined' &&
+    document
+      .querySelector('meta[name="app-preview"]')
+      ?.getAttribute('content') === 'read-only'
   const [isLoading, setIsLoading] = useState(false)
   const [wechatCode, setWeChatCode] = useState('')
   const [agreedToLegal, setAgreedToLegal] = useState(false)
@@ -108,6 +116,7 @@ export function UserAuthForm({
   const hasPrivacyPolicy = Boolean(status?.privacy_policy_enabled)
   const requiresLegalConsent = hasUserAgreement || hasPrivacyPolicy
   const passkeyButtonDisabled =
+    readOnlyPreview ||
     isPasskeyLoading ||
     !passkeySupported ||
     (requiresLegalConsent && !agreedToLegal)
@@ -160,6 +169,8 @@ export function UserAuthForm({
   }, [status])
 
   async function onSubmit(data: z.infer<typeof loginFormSchema>) {
+    if (readOnlyPreview || !passwordLoginEnabled) return
+
     if (requiresLegalConsent && !agreedToLegal) {
       toast.error(legalConsentErrorMessage)
       return
@@ -198,6 +209,8 @@ export function UserAuthForm({
   }
 
   const handleOpenWeChatDialog = () => {
+    if (readOnlyPreview) return
+
     if (requiresLegalConsent && !agreedToLegal) {
       toast.error(legalConsentErrorMessage)
       return
@@ -215,6 +228,8 @@ export function UserAuthForm({
   }
 
   async function handleWeChatLogin() {
+    if (readOnlyPreview) return
+
     if (!wechatCode.trim()) {
       toast.error(t('Please enter the verification code'))
       return
@@ -241,6 +256,8 @@ export function UserAuthForm({
   }
 
   async function handlePasskeyLogin() {
+    if (readOnlyPreview) return
+
     if (requiresLegalConsent && !agreedToLegal) {
       toast.error(legalConsentErrorMessage)
       return
@@ -335,7 +352,11 @@ export function UserAuthForm({
       <OAuthProviders
         status={status}
         redirectTo={redirectTo}
-        disabled={isLoading || (requiresLegalConsent && !agreedToLegal)}
+        disabled={
+          readOnlyPreview ||
+          isLoading ||
+          (requiresLegalConsent && !agreedToLegal)
+        }
         onWeChatLogin={hasWeChatLogin ? handleOpenWeChatDialog : undefined}
         isWeChatLoading={isWeChatSubmitting}
       />
@@ -349,9 +370,29 @@ export function UserAuthForm({
         className={cn('grid gap-4', className)}
         {...props}
       >
+        {readOnlyPreview && (
+          <Alert role='status'>
+            <Info />
+            <AlertTitle>{t('Preview')}</AlertTitle>
+            <AlertDescription>
+              {t('Sign-in is unavailable in this page preview.')}
+            </AlertDescription>
+          </Alert>
+        )}
+
+        {!readOnlyPreview && !passwordLoginEnabled && !hasAlternativeLogin && (
+          <Alert>
+            <AlertDescription>
+              {t(
+                'No sign-in methods are enabled. Please contact the administrator.'
+              )}
+            </AlertDescription>
+          </Alert>
+        )}
+
         {hasAlternativeLogin && alternativeLoginMethods}
 
-        {passwordLoginEnabled && (
+        {(passwordLoginEnabled || readOnlyPreview) && (
           <>
             {/* Username Field */}
             <FormField
@@ -363,6 +404,7 @@ export function UserAuthForm({
                   <FormControl>
                     <Input
                       placeholder={t('Enter your username or email')}
+                      readOnly={readOnlyPreview}
                       {...field}
                     />
                   </FormControl>
@@ -381,12 +423,14 @@ export function UserAuthForm({
                   <FormControl>
                     <PasswordInput
                       placeholder={t('Enter password')}
+                      readOnly={readOnlyPreview}
                       {...field}
                     />
                   </FormControl>
                   <FormMessage />
                   <Link
                     to='/forgot-password'
+                    disabled={readOnlyPreview}
                     className='text-muted-foreground absolute end-0 -top-0.5 z-10 text-sm font-medium hover:opacity-75'
                   >
                     {t('Forgot password?')}
@@ -399,14 +443,14 @@ export function UserAuthForm({
             <Button
               type='submit'
               className='mt-2 w-full justify-center gap-2'
-              disabled={isLoading}
+              disabled={isLoading || readOnlyPreview}
             >
               {isLoading ? <Loader2 className='animate-spin' /> : <LogIn />}
               {t('Sign in')}
             </Button>
 
             {/* Turnstile */}
-            {isTurnstileEnabled && (
+            {isTurnstileEnabled && !readOnlyPreview && (
               <div className='mt-2'>
                 <Turnstile
                   key={turnstileWidgetKey}
@@ -455,6 +499,7 @@ export function UserAuthForm({
                 type='button'
                 onClick={handleWeChatLogin}
                 disabled={
+                  readOnlyPreview ||
                   isWeChatSubmitting ||
                   !wechatCode.trim() ||
                   (requiresLegalConsent && !agreedToLegal)
@@ -488,6 +533,7 @@ export function UserAuthForm({
               id='wechat-code'
               placeholder={t('Enter the verification code')}
               value={wechatCode}
+              readOnly={readOnlyPreview}
               onChange={(event) => setWeChatCode(event.target.value)}
               autoComplete='one-time-code'
             />
