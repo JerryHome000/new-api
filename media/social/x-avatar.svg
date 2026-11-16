@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <!-- Full-bleed lime: Twitter crops avatars to a circle, so the mark sits
+       inside the circle and the chevron legs run off its lower edge. -->
+  <rect width="400" height="400" fill="#CCFF00"/>
+  <g transform="translate(200 200) scale(5.4) translate(-32 -33.5)">
+    <circle cx="32" cy="33.5" r="20.5" fill="#0A0A0A"/>
+    <path d="M10 66 L32 18.5 L54 66" fill="none" stroke="#CCFF00" stroke-width="6.4" stroke-linejoin="miter" stroke-miterlimit="12"/>
+  </g>
+</svg>

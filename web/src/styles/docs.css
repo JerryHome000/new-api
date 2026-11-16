@@ -1,0 +1,191 @@
+/*
+Copyright (C) 2023-2026 QuantumNous
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+For commercial licensing, please contact support@quantumnous.com
+*/
+
+/*
+ * Docs prose. Deliberately unlayered: the shared Markdown component styles
+ * its elements with Tailwind utilities, and these rules restyle them for
+ * long-form reading in the Aion editorial look.
+ */
+.docs-prose {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--foreground);
+}
+
+.docs-prose :is(h2, h3) {
+  scroll-margin-top: 6rem;
+  color: var(--foreground);
+  letter-spacing: -0.01em;
+}
+
+.docs-prose h2 {
+  margin: 3rem 0 1rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid color-mix(in oklch, var(--border) 70%, transparent);
+  font-size: 1.375rem;
+  font-weight: 600;
+}
+
+.docs-prose > h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.docs-prose h3 {
+  margin: 2rem 0 0.75rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+}
+
+.docs-prose p {
+  margin: 0.85rem 0;
+  line-height: 1.8;
+}
+
+.docs-prose :is(ul, ol) {
+  margin: 0.85rem 0;
+}
+
+.docs-prose li::marker {
+  color: var(--muted-foreground);
+}
+
+.docs-prose a {
+  color: var(--foreground);
+  text-decoration: underline;
+  text-decoration-color: var(--omni-ul);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.docs-prose a:hover {
+  color: var(--primary);
+}
+
+.docs-prose :not(pre) > code {
+  padding: 0.12em 0.4em;
+  border: 1px solid color-mix(in oklch, var(--border) 70%, transparent);
+  border-radius: 0.3rem;
+  background: var(--muted);
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 0.86em;
+}
+
+.docs-prose blockquote {
+  margin: 1.25rem 0;
+  padding: 0.75rem 1rem;
+  border-left: 2px solid var(--omni-ul);
+  border-radius: 0 0.5rem 0.5rem 0;
+  background: color-mix(in oklch, var(--primary) 7%, transparent);
+  color: var(--foreground);
+  font-style: normal;
+}
+
+.docs-prose blockquote p {
+  margin: 0.25rem 0;
+}
+
+.docs-prose table {
+  display: block;
+  width: 100%;
+  margin: 1.25rem 0;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.docs-prose :is(th, td) {
+  padding: 0.6rem 0.9rem;
+  border: 0;
+  border-bottom: 1px solid color-mix(in oklch, var(--border) 70%, transparent);
+  text-align: left;
+  vertical-align: top;
+}
+
+.docs-prose thead {
+  background: transparent;
+}
+
+.docs-prose th {
+  color: var(--muted-foreground);
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.docs-prose th:lang(zh) {
+  letter-spacing: 0.02em;
+}
+
+.docs-prose hr {
+  margin: 2.5rem 0;
+  border-color: color-mix(in oklch, var(--border) 70%, transparent);
+}
+
+/* Code blocks: a mono toolbar (language + copy) above a quiet surface. */
+.docs-code {
+  margin: 1.25rem 0;
+  overflow: hidden;
+  border: 1px solid color-mix(in oklch, var(--border) 80%, transparent);
+  border-radius: 0.6rem;
+  background: color-mix(in oklch, var(--muted) 70%, var(--background));
+}
+
+.docs-code-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 2.25rem;
+  padding: 0 0.35rem 0 0.9rem;
+  border-bottom: 1px solid color-mix(in oklch, var(--border) 70%, transparent);
+  color: var(--muted-foreground);
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.docs-code-slot {
+  display: inline-flex;
+}
+
+.docs-prose .docs-code pre {
+  margin: 0;
+  padding: 0.9rem 1rem;
+  overflow-x: auto;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  overflow-wrap: normal;
+  white-space: pre;
+}
+
+.docs-prose .docs-code pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: inherit;
+}

@@ -18,7 +18,9 @@ For commercial licensing, please contact support@quantumnous.com
 */
 import DOMPurify, { type Config } from 'dompurify'
 import { useEffect, useMemo, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 
+import { toIntlLocale } from '@/i18n/languages'
 import { cn } from '@/lib/utils'
 
 export type HtmlContentVariant = 'inline' | 'isolated'
@@ -140,7 +142,11 @@ function IsolatedHtmlContent(props: {
   className?: string
   html: string
 }): React.ReactElement {
+  const { i18n } = useTranslation()
   const containerRef = useRef<HTMLDivElement>(null)
+  // Scripts are stripped, so the content cannot read the interface language
+  // itself; a BCP-47 lang on its wrapper lets its CSS pick a translation.
+  const lang = toIntlLocale(i18n.language)
 
   useEffect(() => {
     const container = containerRef.current
@@ -158,6 +164,9 @@ function IsolatedHtmlContent(props: {
 
     const wrapper = document.createElement('div')
     syncDarkClass(wrapper)
+    if (lang) {
+      wrapper.lang = lang
+    }
     wrapper.innerHTML = props.html
 
     const contentTemplate = document.createElement('template')
@@ -176,7 +185,7 @@ function IsolatedHtmlContent(props: {
     })
 
     return () => observer.disconnect()
-  }, [props.html])
+  }, [props.html, lang])
 
   return (
     <div ref={containerRef} className={cn('block w-full', props.className)} />

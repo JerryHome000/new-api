@@ -1,0 +1,11 @@
+# Local override: build the image from this checkout instead of pulling
+# calciumion/new-api:latest, so frontend changes (theme, branding) ship.
+services:
+  new-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: omni/new-api:local
+    environment:
+      # Model square mirrors this new-api instance's public catalog.
+      - PRICING_SOURCE_URL=https://api.aizhan.space/api/pricing

@@ -17,13 +17,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 For commercial licensing, please contact support@quantumnous.com
 */
 import { useQuery } from '@tanstack/react-query'
-import { FileWarning } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
-import { PublicLayout } from '@/components/layout'
+import { PageHero, PublicLayout } from '@/components/layout'
 import { RichContent } from '@/components/rich-content'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { isHttpUrl, isLikelyHtml } from '@/lib/content-format'
 
@@ -70,41 +68,29 @@ export function LegalDocument({
 
   if (!success || !hasContent) {
     return (
-      <PublicLayout>
-        <div className='mx-auto max-w-2xl py-12'>
-          <Card className='border-dashed'>
-            <CardHeader className='flex flex-row items-center gap-4'>
-              <div className='bg-muted rounded-lg p-2'>
-                <FileWarning className='text-muted-foreground h-5 w-5' />
-              </div>
-              <div className='space-y-1'>
-                <CardTitle className='text-lg font-semibold'>{title}</CardTitle>
-                <p className='text-muted-foreground text-sm'>
-                  {data?.message || emptyMessage}
-                </p>
-              </div>
-            </CardHeader>
-          </Card>
-        </div>
+      <PublicLayout showMainContainer={false}>
+        <PageHero
+          eyebrow={t('Legal')}
+          title={title}
+          description={data?.message || emptyMessage}
+        />
       </PublicLayout>
     )
   }
 
   if (isUrl) {
     return (
-      <PublicLayout>
-        <div className='mx-auto max-w-2xl py-12'>
-          <Card>
-            <CardHeader>
-              <CardTitle>{title}</CardTitle>
-            </CardHeader>
-            <CardContent className='space-y-4'>
-              <p className='text-muted-foreground text-sm'>
-                {t(
-                  'The administrator configured an external link for this document.'
-                )}
-              </p>
+      <PublicLayout showMainContainer={false}>
+        <PageHero
+          eyebrow={t('Legal')}
+          title={title}
+          description={t(
+            'The administrator configured an external link for this document.'
+          )}
+          aside={
+            <div className='flex lg:justify-end'>
               <Button
+                size='lg'
                 render={
                   <a
                     href={rawContent}
@@ -115,29 +101,28 @@ export function LegalDocument({
               >
                 {t('View document')}
               </Button>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+          }
+        />
       </PublicLayout>
     )
   }
 
   return (
-    <PublicLayout showMainContainer={!contentIsHtml}>
+    <PublicLayout showMainContainer={false}>
       {contentIsHtml ? (
         <RichContent mode='html' htmlVariant='isolated' content={rawContent} />
       ) : (
-        <div className='mx-auto max-w-4xl space-y-6 py-12'>
-          <div className='space-y-2'>
-            <h1 className='text-3xl font-semibold tracking-tight'>{title}</h1>
+        <>
+          <PageHero eyebrow={t('Legal')} title={title} />
+          <div className='mx-auto w-full max-w-[1280px] px-4 py-12 sm:px-6 xl:px-8'>
+            <RichContent
+              mode='markdown'
+              content={rawContent}
+              className='prose-neutral dark:prose-invert max-w-3xl'
+            />
           </div>
-
-          <RichContent
-            mode='markdown'
-            content={rawContent}
-            className='prose-neutral dark:prose-invert max-w-none'
-          />
-        </div>
+        </>
       )}
     </PublicLayout>
   )

@@ -65,7 +65,11 @@ function BrandLogo({
         ) : null}
         {displayLogo}
       </div>
-      {loading ? <Skeleton className='h-5 w-20' /> : displaySiteName}
+      {loading ? (
+        <Skeleton className='h-5 w-20' />
+      ) : (
+        <span className='omni-wordmark text-sm'>{displaySiteName}</span>
+      )}
     </Link>
   )
 }

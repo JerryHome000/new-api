@@ -20,7 +20,7 @@ import i18n from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 
-import { convertDetectedLanguage } from './languages'
+import { convertDetectedLanguage, toIntlLocale } from './languages'
 import en from './locales/en.json'
 import fr from './locales/fr.json'
 import ja from './locales/ja.json'
@@ -40,6 +40,12 @@ export const resources = {
 } as const
 
 i18n
+  .on('languageChanged', (language: string) => {
+    if (typeof document !== 'undefined') {
+      document.documentElement.lang =
+        toIntlLocale(i18n.resolvedLanguage || language) || 'en'
+    }
+  })
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({

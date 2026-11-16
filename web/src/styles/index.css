@@ -20,6 +20,11 @@ For commercial licensing, please contact support@quantumnous.com
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
 @import '@fontsource-variable/public-sans';
+/* Aion brand typography: Inter for UI, DM Mono for code and labels. */
+@import '@fontsource-variable/inter';
+@import '@fontsource/dm-mono';
+@import '@fontsource/dm-mono/500.css';
+@import '@fontsource/instrument-serif/400-italic.css';
 /* Editorial serif (Lora) backing the `serif` font axis and the Anthropic
  * preset's default typography. See `--font-serif` in theme.css for the
  * full Latin + CJK fallback stack and `theme-presets.css` for the cascade
@@ -29,6 +34,8 @@ For commercial licensing, please contact support@quantumnous.com
 
 @import './theme.css';
 @import './theme-presets.css';
+@import './omni.css';
+@import './docs.css';
 
 @layer base {
   :root {
