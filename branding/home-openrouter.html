@@ -243,6 +243,10 @@
   .om:lang(zh) .om-h2 { max-width: none; line-height: 1.35; }
   .om:lang(zh) .om-close h2 { line-height: 1.25; }
   .om:lang(zh) .om-lead { line-height: 1.85; }
+  /* Chinese has no italic serif to borrow, so headings contrast weight within the
+     one sans instead: light text, bold accent (the hero accent keeps its underline). */
+  .om:lang(zh) :is(.om-h1, .om-h2, .om-close h2) { font-weight: 300; }
+  .om:lang(zh) :is(h1, h2) em { font-weight: 700; }
   .om:lang(zh) :is(.om-kick, .om-label, .om-idx, .om-step .n sup) { font-family: var(--om-font-zh); letter-spacing: .02em; text-transform: none; }
   [lang|="zh"] > .om .om-lead { max-width: 30rem; }
 
@@ -276,7 +280,7 @@
 
       <div class="om-console om-rise d4" aria-hidden="true"><div class="om-example-label"><span class="en" data-home-i18n="Example request · Illustrative usage">Example request · Illustrative usage</span><span class="zh" data-home-i18n="Example request · Illustrative usage">示例请求 · 用量仅作演示</span></div>
         <div class="bar"><span class="lights"><i></i><i></i><i></i></span><span>POST /v1/chat/completions</span><span class="ok">● 200 OK</span></div>
-<pre><span class="p">base_url</span>  https://api.omni.dev/v1
+<pre><span class="p">base_url</span>  https://api.aion.dev/v1
 
 {
   <span class="p">"stream"</span>: true,
@@ -331,7 +335,7 @@
           <p class="en" data-home-i18n="Published prices, charged by each model's billing unit, with a record of every request.">Published prices, charged by each model's billing unit, with a record of every request.</p><p class="zh" data-home-i18n="Published prices, charged by each model's billing unit, with a record of every request.">按各模型公布的计费单位扣费，每笔请求都有记录。</p>
         </div>
         <div class="w4">
-          <div class="om-viz"><div class="om-keyviz"><div class="f"><span>sk-omni-••••••••••••••••</span><i><span class="en" data-home-i18n="active">active</span><span class="zh" data-home-i18n="active">已启用</span></i></div><div class="rules"><span class="en" data-home-i18n="Quota <b>$50</b>">Quota <b>$50</b></span><span class="zh" data-home-i18n="Quota <b>$50</b>">额度 <b>$50</b></span><span class="en" data-home-i18n="Models <b>claude-* gpt-*</b>">Models <b>claude-* gpt-*</b></span><span class="zh" data-home-i18n="Models <b>claude-* gpt-*</b>">模型 <b>claude-* gpt-*</b></span><span class="en" data-home-i18n="IP <b>10.0.0.0/24</b>">IP <b>10.0.0.0/24</b></span><span class="zh" data-home-i18n="IP <b>10.0.0.0/24</b>">IP 白名单 <b>10.0.0.0/24</b></span><span class="en" data-home-i18n="Expires <b>2026-12-31</b>">Expires <b>2026-12-31</b></span><span class="zh" data-home-i18n="Expires <b>2026-12-31</b>">到期 <b>2026-12-31</b></span></div></div></div>
+          <div class="om-viz"><div class="om-keyviz"><div class="f"><span>sk-aion-••••••••••••••••</span><i><span class="en" data-home-i18n="active">active</span><span class="zh" data-home-i18n="active">已启用</span></i></div><div class="rules"><span class="en" data-home-i18n="Quota <b>$50</b>">Quota <b>$50</b></span><span class="zh" data-home-i18n="Quota <b>$50</b>">额度 <b>$50</b></span><span class="en" data-home-i18n="Models <b>claude-* gpt-*</b>">Models <b>claude-* gpt-*</b></span><span class="zh" data-home-i18n="Models <b>claude-* gpt-*</b>">模型 <b>claude-* gpt-*</b></span><span class="en" data-home-i18n="IP <b>10.0.0.0/24</b>">IP <b>10.0.0.0/24</b></span><span class="zh" data-home-i18n="IP <b>10.0.0.0/24</b>">IP 白名单 <b>10.0.0.0/24</b></span><span class="en" data-home-i18n="Expires <b>2026-12-31</b>">Expires <b>2026-12-31</b></span><span class="zh" data-home-i18n="Expires <b>2026-12-31</b>">到期 <b>2026-12-31</b></span></div></div></div>
           <h3 class="en" data-home-i18n="Per-key controls">Per-key controls</h3><h3 class="zh" data-home-i18n="Per-key controls">Key 级别的管控</h3>
           <p class="en" data-home-i18n="Give every key its own quota, model allowlist, IP range and expiry. One key per project, teammate or agent.">Give every key its own quota, model allowlist, IP range and expiry. One key per project, teammate or agent.</p><p class="zh" data-home-i18n="Give every key its own quota, model allowlist, IP range and expiry. One key per project, teammate or agent.">每把 Key 可单独设置额度、可用模型、IP 白名单和过期时间。项目、同事、Agent 各用各的 Key。</p>
         </div>
@@ -379,23 +383,23 @@
         <div class="om-app">
           <h3>Claude Code</h3><p class="en" data-home-i18n="Native Anthropic protocol">Native Anthropic protocol</p><p class="zh" data-home-i18n="Native Anthropic protocol">Anthropic 原生协议</p>
 <pre><span class="c">ANTHROPIC_BASE_URL</span>
-<span class="k">https://api.omni.dev</span>
+<span class="k">https://api.aion.dev</span>
 <span class="c">ANTHROPIC_AUTH_TOKEN</span>
-<span class="k">sk-omni-…</span></pre>
+<span class="k">sk-aion-…</span></pre>
         </div>
         <div class="om-app">
           <h3>Codex CLI</h3><p class="en" data-home-i18n="OpenAI Responses protocol">OpenAI Responses protocol</p><p class="zh" data-home-i18n="OpenAI Responses protocol">OpenAI Responses 协议</p>
 <pre><span class="c">OPENAI_BASE_URL</span>
-<span class="k">https://api.omni.dev/v1</span>
+<span class="k">https://api.aion.dev/v1</span>
 <span class="c">OPENAI_API_KEY</span>
-<span class="k">sk-omni-…</span></pre>
+<span class="k">sk-aion-…</span></pre>
         </div>
         <div class="om-app">
           <h3>Cursor · Cherry Studio</h3><p class="en" data-home-i18n="OpenAI-compatible settings">OpenAI-compatible settings</p><p class="zh" data-home-i18n="OpenAI-compatible settings">OpenAI 兼容配置</p>
 <pre><span class="c">Base URL</span>
-<span class="k">https://api.omni.dev/v1</span>
+<span class="k">https://api.aion.dev/v1</span>
 <span class="c">API Key</span>
-<span class="k">sk-omni-…</span></pre>
+<span class="k">sk-aion-…</span></pre>
         </div>
       </div>
     </section>
@@ -408,7 +412,7 @@
       <div class="om-steps">
         <div class="om-step"><div class="n">01<sup class="en" data-home-i18n="SIGN UP">SIGN UP</sup><sup class="zh" data-home-i18n="SIGN UP">第一步</sup></div><h3 class="en" data-home-i18n="Sign up">Sign up</h3><h3 class="zh" data-home-i18n="Sign up">注册账号</h3><p class="en" data-home-i18n="Create an account to manage your API access.">Create an account to manage your API access.</p><p class="zh" data-home-i18n="Create an account to manage your API access.">创建账号，统一管理 API 访问。</p></div>
         <div class="om-step"><div class="n">02<sup class="en" data-home-i18n="TOP UP">TOP UP</sup><sup class="zh" data-home-i18n="TOP UP">第二步</sup></div><h3 class="en" data-home-i18n="Top up">Top up</h3><h3 class="zh" data-home-i18n="Top up">充值余额</h3><p class="en" data-home-i18n="One balance covers every model. Pay only for what you use.">One balance covers every model. Pay only for what you use.</p><p class="zh" data-home-i18n="One balance covers every model. Pay only for what you use.">余额对所有模型通用，用多少扣多少。</p></div>
-        <div class="om-step"><div class="n">03<sup class="en" data-home-i18n="CREATE KEY">CREATE KEY</sup><sup class="zh" data-home-i18n="CREATE KEY">第三步</sup></div><h3 class="en" data-home-i18n="Create an API key">Create an API key</h3><h3 class="zh" data-home-i18n="Create an API key">创建 API Key</h3><p class="en" data-home-i18n="Point your Base URL at Omni and start sending requests.">Point your Base URL at Omni and start sending requests.</p><p class="zh" data-home-i18n="Point your Base URL at Omni and start sending requests.">将 Base URL 指向 Omni，即可发起请求。</p></div>
+        <div class="om-step"><div class="n">03<sup class="en" data-home-i18n="CREATE KEY">CREATE KEY</sup><sup class="zh" data-home-i18n="CREATE KEY">第三步</sup></div><h3 class="en" data-home-i18n="Create an API key">Create an API key</h3><h3 class="zh" data-home-i18n="Create an API key">创建 API Key</h3><p class="en" data-home-i18n="Point your Base URL at Aion and start sending requests.">Point your Base URL at Aion and start sending requests.</p><p class="zh" data-home-i18n="Point your Base URL at Aion and start sending requests.">将 Base URL 指向 Aion，即可发起请求。</p></div>
       </div>
     </section>
 
@@ -430,7 +434,7 @@
     </section>
 
     <footer class="om-foot">
-      <div class="brand">OMNI <i></i> <span class="om-label">OPENAI · CLAUDE · GEMINI</span></div>
+      <div class="brand">AION <i></i> <span class="om-label">OPENAI · CLAUDE · GEMINI</span></div>
       <nav>
         <a class="om-link" href="/pricing"><span class="en" data-home-i18n="Models">Models</span><span class="zh" data-home-i18n="Models">模型广场</span> <span class="om-arr">↗</span></a>
         <a class="om-link" href="/about"><span class="en" data-home-i18n="About">About</span><span class="zh" data-home-i18n="About">关于</span> <span class="om-arr">↗</span></a>

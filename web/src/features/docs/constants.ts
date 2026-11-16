@@ -28,7 +28,7 @@ export const DOCS_DEFAULT_MODELS = {
 } as const
 
 /** Provider id prefix used in tool configs when the site name has no ASCII. */
-export const DOCS_FALLBACK_PROVIDER_ID = 'omni'
+export const DOCS_FALLBACK_PROVIDER_ID = 'aion'
 
 /**
  * Documentation tree. Titles here are page content (the docs are written in

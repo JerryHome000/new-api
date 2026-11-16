@@ -130,8 +130,8 @@
       <div>
         <div class="om-req">
           <div class="om-req-bar om-label"><span>POST /v1/chat/completions</span><span class="ok">200 OK · 412ms</span></div>
-<pre class="om-mono">curl https://api.omni.dev/v1/chat/completions \
-  -H <span class="s">"Authorization: Bearer sk-omni-…"</span> \
+<pre class="om-mono">curl https://api.aion.dev/v1/chat/completions \
+  -H <span class="s">"Authorization: Bearer sk-aion-…"</span> \
   -d <span class="s">'{
     "model": <span class="k">"claude-sonnet-5-5"</span>,
     "messages": [{"role": "user", "content": "hi"}]
@@ -148,7 +148,7 @@
     <div class="om-steps">
       <a class="om-step" href="/sign-up"><span class="n om-mono">01</span>注册，创建 API Key<span class="om-arr">↗</span></a>
       <a class="om-step" href="/pricing"><span class="n om-mono">02</span>选一个模型<span class="om-arr">↗</span></a>
-      <div class="om-step"><span class="n om-mono">03</span>把 Base URL 指向 Omni<span class="tag om-mono">30s</span></div>
+      <div class="om-step"><span class="n om-mono">03</span>把 Base URL 指向 Aion<span class="tag om-mono">30s</span></div>
     </div>
   </div>
 
@@ -194,20 +194,20 @@
           <label for="qs-sh">curl</label>
         </div>
         <div class="om-panes om-mono">
-          <div class="p-cc"><pre>export ANTHROPIC_BASE_URL=<span class="k">https://api.omni.dev</span>
-export ANTHROPIC_AUTH_TOKEN=<span class="k">sk-omni-…</span>
+          <div class="p-cc"><pre>export ANTHROPIC_BASE_URL=<span class="k">https://api.aion.dev</span>
+export ANTHROPIC_AUTH_TOKEN=<span class="k">sk-aion-…</span>
 claude</pre><div class="hint">走 Anthropic 原生协议，Base URL 不带 /v1。</div></div>
-          <div class="p-cx"><pre>export OPENAI_BASE_URL=<span class="k">https://api.omni.dev/v1</span>
-export OPENAI_API_KEY=<span class="k">sk-omni-…</span>
+          <div class="p-cx"><pre>export OPENAI_BASE_URL=<span class="k">https://api.aion.dev/v1</span>
+export OPENAI_API_KEY=<span class="k">sk-aion-…</span>
 codex</pre><div class="hint">走 OpenAI Responses 协议。</div></div>
-          <div class="p-gm"><pre>export GOOGLE_GEMINI_BASE_URL=<span class="k">https://api.omni.dev</span>
-export GEMINI_API_KEY=<span class="k">sk-omni-…</span>
+          <div class="p-gm"><pre>export GOOGLE_GEMINI_BASE_URL=<span class="k">https://api.aion.dev</span>
+export GEMINI_API_KEY=<span class="k">sk-aion-…</span>
 gemini</pre><div class="hint">走 Gemini 原生协议，Base URL 不带 /v1。</div></div>
           <div class="p-py"><pre>from openai import OpenAI
 
 client = OpenAI(
-    base_url=<span class="k">"https://api.omni.dev/v1"</span>,
-    api_key=<span class="k">"sk-omni-…"</span>,
+    base_url=<span class="k">"https://api.aion.dev/v1"</span>,
+    api_key=<span class="k">"sk-aion-…"</span>,
 )
 r = client.chat.completions.create(
     model=<span class="k">"claude-sonnet-5-5"</span>,
@@ -216,15 +216,15 @@ r = client.chat.completions.create(
           <div class="p-js"><pre>import OpenAI from "openai";
 
 const client = new OpenAI({
-  baseURL: <span class="k">"https://api.omni.dev/v1"</span>,
-  apiKey: <span class="k">"sk-omni-…"</span>,
+  baseURL: <span class="k">"https://api.aion.dev/v1"</span>,
+  apiKey: <span class="k">"sk-aion-…"</span>,
 });
 const r = await client.chat.completions.create({
   model: <span class="k">"gpt-5.5"</span>,
   messages: [{ role: "user", content: "hi" }],
 });</pre></div>
-          <div class="p-sh"><pre>curl https://api.omni.dev/v1/chat/completions \
-  -H <span class="s">"Authorization: Bearer sk-omni-…"</span> \
+          <div class="p-sh"><pre>curl https://api.aion.dev/v1/chat/completions \
+  -H <span class="s">"Authorization: Bearer sk-aion-…"</span> \
   -H <span class="s">"Content-Type: application/json"</span> \
   -d <span class="s">'{"model":"gemini-3-pro","messages":[{"role":"user","content":"hi"}]}'</span></pre></div>
         </div>
@@ -233,7 +233,7 @@ const r = await client.chat.completions.create({
     </section>
 
     <section class="om-sec om-line">
-      <div class="om-label">03 / WHY OMNI</div>
+      <div class="om-label">03 / WHY AION</div>
       <h2 class="om-h2" style="margin-top:1rem">Built for <span class="om-serif">shipping</span>.</h2>
       <div class="om-why">
         <div><div class="om-label">PROTOCOL</div><h3>一套接口，全部模型</h3><p>OpenAI、Claude、Gemini 三种协议原生支持，互相兼容。换模型只改 model 字段。</p></div>
@@ -249,7 +249,7 @@ const r = await client.chat.completions.create({
           <h2 class="om-h2" style="margin-top:1rem">常见问题</h2>
         </div>
         <div>
-          <details open><summary><span class="n">01</span>需要自己准备 OpenAI、Anthropic 或 Google 账号吗？</summary><p>不需要。注册 Omni、创建一个 API Key，就能调用所有开放的模型。上游账号、配额、网络都由我们维护。</p></details>
+          <details open><summary><span class="n">01</span>需要自己准备 OpenAI、Anthropic 或 Google 账号吗？</summary><p>不需要。注册 Aion、创建一个 API Key，就能调用所有开放的模型。上游账号、配额、网络都由我们维护。</p></details>
           <details><summary><span class="n">02</span>怎么计费？</summary><p>按 token，每个模型的输入 / 输出单价都列在模型页。请求结束立即扣费，没有月费和最低消费。</p></details>
           <details><summary><span class="n">03</span>现有代码要改多少？</summary><p>两行：Base URL 和 Key。OpenAI、Anthropic、Gemini 三家 SDK 直接兼容；Claude Code、Codex、Cursor 这类客户端只改设置。</p></details>
           <details><summary><span class="n">04</span>调用出问题去哪里看？</summary><p>控制台「使用日志」按请求列出状态码、耗时、模型和错误原因；「数据看板」看整体错误率和延迟。</p></details>
@@ -266,7 +266,7 @@ const r = await client.chat.completions.create({
     </div>
 
     <footer class="om-foot">
-      <div class="brand">OMNI <i></i> <span class="om-label">OPENAI · CLAUDE · GEMINI</span></div>
+      <div class="brand">AION <i></i> <span class="om-label">OPENAI · CLAUDE · GEMINI</span></div>
       <nav>
         <a class="om-link" href="/pricing">Models <span class="om-arr">↗</span></a>
         <a class="om-link" href="/about">About <span class="om-arr">↗</span></a>

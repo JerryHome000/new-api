@@ -4812,7 +4812,7 @@
     "Plugin-defined interfaces": "Plugin-defined interfaces",
     "Plugins": "Plugins",
     "Plugins can access channel credentials. Review the source and differences before installing.": "Plugins can access channel credentials. Review the source and differences before installing.",
-    "Point your Base URL at Omni and start sending requests.": "Point your Base URL at Omni and start sending requests.",
+    "Point your Base URL at Aion and start sending requests.": "Point your Base URL at Aion and start sending requests.",
     "Policy JSON": "Policy JSON",
     "Polling": "Polling",
     "Polling mode requires Redis and memory cache, otherwise performance will be significantly degraded": "Polling mode requires Redis and memory cache, otherwise performance will be significantly degraded",

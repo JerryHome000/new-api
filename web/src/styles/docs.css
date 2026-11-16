@@ -20,7 +20,7 @@ For commercial licensing, please contact support@quantumnous.com
 /*
  * Docs prose. Deliberately unlayered: the shared Markdown component styles
  * its elements with Tailwind utilities, and these rules restyle them for
- * long-form reading in the Omni editorial look.
+ * long-form reading in the Aion editorial look.
  */
 .docs-prose {
   font-size: 15px;

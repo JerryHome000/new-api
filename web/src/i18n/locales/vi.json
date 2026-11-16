@@ -4812,7 +4812,7 @@
     "Plugin-defined interfaces": "Giao diện do plugin định nghĩa",
     "Plugins": "Plugin",
     "Plugins can access channel credentials. Review the source and differences before installing.": "Plugin có thể truy cập thông tin xác thực kênh. Hãy kiểm tra mã nguồn và các khác biệt trước khi cài đặt.",
-    "Point your Base URL at Omni and start sending requests.": "Trỏ Base URL đến Omni và bắt đầu gửi yêu cầu.",
+    "Point your Base URL at Aion and start sending requests.": "Trỏ Base URL đến Aion và bắt đầu gửi yêu cầu.",
     "Policy JSON": "JSON chính sách",
     "Polling": "Thăm dò",
     "Polling mode requires Redis and memory cache, otherwise performance will be significantly degraded": "Chế độ thăm dò yêu cầu Redis và bộ nhớ đệm, nếu không hiệu suất sẽ bị suy giảm đáng kể.",

@@ -4812,7 +4812,7 @@
     "Plugin-defined interfaces": "插件自定义接口",
     "Plugins": "插件",
     "Plugins can access channel credentials. Review the source and differences before installing.": "插件可访问渠道凭据。安装前请审查源码与差异。",
-    "Point your Base URL at Omni and start sending requests.": "将 Base URL 指向 Omni，即可发起请求。",
+    "Point your Base URL at Aion and start sending requests.": "将 Base URL 指向 Aion，即可发起请求。",
     "Policy JSON": "策略 JSON",
     "Polling": "轮询",
     "Polling mode requires Redis and memory cache, otherwise performance will be significantly degraded": "轮询模式需要 Redis 和内存缓存，否则性能将显著下降",

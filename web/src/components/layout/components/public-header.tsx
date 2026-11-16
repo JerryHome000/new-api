@@ -230,7 +230,7 @@ export function PublicHeader(props: PublicHeaderProps) {
                   {logoContent}
                 </div>
                 <span
-                  className='max-w-48 truncate text-sm font-semibold tracking-tight'
+                  className='omni-wordmark max-w-48 truncate text-[0.8rem]'
                   title={displaySiteName}
                 >
                   {loading ? (

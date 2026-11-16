@@ -27,9 +27,9 @@ import {
 } from '../lib/docs-template'
 
 const vars = {
-  siteName: 'Omni',
+  siteName: 'Aion',
   baseUrl: 'https://api.example.com',
-  providerId: 'omni',
+  providerId: 'aion',
   claudeModel: 'claude-x',
   gptModel: 'gpt-x',
 }
@@ -42,14 +42,14 @@ describe('docs template', () => {
         vars
       )
     ).toBe(
-      'Omni at https://api.example.com/v1 and https://api.example.com as omni: claude-x, gpt-x'
+      'Aion at https://api.example.com/v1 and https://api.example.com as aion: claude-x, gpt-x'
     )
   })
 
   test('derives an ASCII provider id from the site name', () => {
-    expect(toDocsProviderId('Omni Cloud')).toBe('omni-cloud')
+    expect(toDocsProviderId('Aion Cloud')).toBe('aion-cloud')
     expect(toDocsProviderId('  API·Hub 2 ')).toBe('api-hub-2')
-    expect(toDocsProviderId('全能')).toBe('omni')
+    expect(toDocsProviderId('全能')).toBe('aion')
   })
 
   test('slugs headings like GitHub and numbers repeats', () => {

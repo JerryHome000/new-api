@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Push one homepage variant into the running new-api instance as HomePageContent.
 #
-#   ./branding/push-home.sh openrouter   # branding/home-openrouter.html (default: OpenRouter layout, Omni style)
+#   ./branding/push-home.sh openrouter   # branding/home-openrouter.html (default: OpenRouter layout, Aion style)
 #   ./branding/push-home.sh lean         # branding/home-lean.html       (editorial hero, trimmed sections)
 #   ./branding/push-home.sh editorial    # branding/home-editorial.html  (NONCE-style hero, long form)
 #   ./branding/push-home.sh reference    # branding/home-reference.html  (aizhan-style hero)

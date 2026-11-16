@@ -58,7 +58,7 @@ let client: QueryClient
 beforeEach(() => {
   client = new QueryClient({ defaultOptions: { queries: { retry: false } } })
   client.setQueryData(STATUS_QUERY_KEY, {
-    system_name: 'Omni',
+    system_name: 'Aion',
     server_address: 'https://api.example.com/',
   })
   window.scrollTo = vi.fn()
@@ -84,7 +84,7 @@ test('fills site values and anchors headings for the outline', async () => {
   const { container, onHeadingsChange } = await renderArticle()
 
   expect(container).toHaveTextContent(
-    '用 Omni 的地址 https://api.example.com/v1'
+    '用 Aion 的地址 https://api.example.com/v1'
   )
   expect(
     screen.getByRole('heading', { level: 2, name: '1. 安装' })

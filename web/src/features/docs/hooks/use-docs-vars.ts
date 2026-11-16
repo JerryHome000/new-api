@@ -31,7 +31,7 @@ export function useDocsVars(): DocsTemplateVars {
   const serverAddress = status?.server_address as string | undefined
 
   return useMemo(() => {
-    const siteName = systemName?.trim() || 'Omni'
+    const siteName = systemName?.trim() || 'Aion'
     const address = serverAddress?.trim() || window.location.origin
     return {
       siteName,

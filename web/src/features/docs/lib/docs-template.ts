@@ -37,7 +37,7 @@ export function fillDocsTemplate(
 
 /**
  * Turns the site name into the id prefix tools use for custom providers:
- * lowercase ASCII words joined by hyphens ("Omni Cloud" → "omni-cloud").
+ * lowercase ASCII words joined by hyphens ("Aion Cloud" → "omni-cloud").
  */
 export function toDocsProviderId(siteName: string): string {
   const id = siteName

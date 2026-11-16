@@ -57,7 +57,7 @@ export function AuthLayout(props: AuthLayoutProps) {
       {loading ? (
         <Skeleton className='h-6 w-24' />
       ) : (
-        <span className='text-lg font-medium tracking-tight'>{systemName}</span>
+        <span className='omni-wordmark text-sm'>{systemName}</span>
       )}
     </Link>
   )
