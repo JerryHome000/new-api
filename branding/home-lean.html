@@ -133,12 +133,12 @@
 <pre class="om-mono">curl https://api.aion.dev/v1/chat/completions \
   -H <span class="s">"Authorization: Bearer sk-aion-…"</span> \
   -d <span class="s">'{
-    "model": <span class="k">"claude-sonnet-5-5"</span>,
+    "model": <span class="k">"claude-fable-5-2"</span>,
     "messages": [{"role": "user", "content": "hi"}]
   }'</span>
 
 <span class="c"># swap the model, keep everything else</span>
-<span class="c"># gpt-5.5 · gemini-3-pro · deepseek-v4 · qwen-4</span></pre>
+<span class="c"># gpt-6.1-sol · gemini-4-argon · deepseek-v4.1-flash · qwen-4</span></pre>
         </div>
       </div>
     </section>
@@ -161,10 +161,10 @@
       </div>
       <div class="om-rows">
         <div class="om-row head om-label"><span>Model</span><span>Provider</span><span>Protocol</span><span>Status</span><span></span></div>
-        <a class="om-row" href="/pricing"><span class="m">claude-sonnet-5-5</span><span class="d hide">Anthropic</span><span class="d">Claude · OpenAI</span><span class="d"><b>Live</b></span><span class="om-arr">↗</span></a>
-        <a class="om-row" href="/pricing"><span class="m">gpt-5.5</span><span class="d hide">OpenAI</span><span class="d">Chat · Responses</span><span class="d"><b>Live</b></span><span class="om-arr">↗</span></a>
-        <a class="om-row" href="/pricing"><span class="m">gemini-3-pro</span><span class="d hide">Google</span><span class="d">Gemini · OpenAI</span><span class="d"><b>Live</b></span><span class="om-arr">↗</span></a>
-        <a class="om-row" href="/pricing"><span class="m">deepseek-v4</span><span class="d hide">DeepSeek</span><span class="d">OpenAI</span><span class="d"><b>Live</b></span><span class="om-arr">↗</span></a>
+        <a class="om-row" href="/pricing"><span class="m">claude-fable-5-2</span><span class="d hide">Anthropic</span><span class="d">Claude · OpenAI</span><span class="d"><b>Live</b></span><span class="om-arr">↗</span></a>
+        <a class="om-row" href="/pricing"><span class="m">gpt-6.1-sol</span><span class="d hide">OpenAI</span><span class="d">Chat · Responses</span><span class="d"><b>Live</b></span><span class="om-arr">↗</span></a>
+        <a class="om-row" href="/pricing"><span class="m">gemini-4-argon</span><span class="d hide">Google</span><span class="d">Gemini · OpenAI</span><span class="d"><b>Live</b></span><span class="om-arr">↗</span></a>
+        <a class="om-row" href="/pricing"><span class="m">deepseek-v4.1-flash</span><span class="d hide">DeepSeek</span><span class="d">OpenAI</span><span class="d"><b>Live</b></span><span class="om-arr">↗</span></a>
         <a class="om-row" href="/pricing"><span class="m">qwen-4</span><span class="d hide">Alibaba</span><span class="d">OpenAI</span><span class="d"><b>Live</b></span><span class="om-arr">↗</span></a>
       </div>
       <div class="om-note om-mono">单价、上下文长度和支持的能力以 /pricing 为准，实时同步。</div>
@@ -210,7 +210,7 @@ client = OpenAI(
     api_key=<span class="k">"sk-aion-…"</span>,
 )
 r = client.chat.completions.create(
-    model=<span class="k">"claude-sonnet-5-5"</span>,
+    model=<span class="k">"claude-fable-5-2"</span>,
     messages=[{"role": "user", "content": "hi"}],
 )</pre></div>
           <div class="p-js"><pre>import OpenAI from "openai";
@@ -220,13 +220,13 @@ const client = new OpenAI({
   apiKey: <span class="k">"sk-aion-…"</span>,
 });
 const r = await client.chat.completions.create({
-  model: <span class="k">"gpt-5.5"</span>,
+  model: <span class="k">"gpt-6.1-sol"</span>,
   messages: [{ role: "user", content: "hi" }],
 });</pre></div>
           <div class="p-sh"><pre>curl https://api.aion.dev/v1/chat/completions \
   -H <span class="s">"Authorization: Bearer sk-aion-…"</span> \
   -H <span class="s">"Content-Type: application/json"</span> \
-  -d <span class="s">'{"model":"gemini-3-pro","messages":[{"role":"user","content":"hi"}]}'</span></pre></div>
+  -d <span class="s">'{"model":"gemini-4-argon","messages":[{"role":"user","content":"hi"}]}'</span></pre></div>
         </div>
       </div>
       <div class="om-note om-mono">Cursor、Cherry Studio 等 GUI 客户端：Settings → OpenAI-compatible，填同样的 Base URL 和 Key。</div>

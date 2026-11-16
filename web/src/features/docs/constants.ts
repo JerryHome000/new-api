@@ -23,7 +23,7 @@ import type { DocsPage, DocsSection } from './types'
  * {{CLAUDE_MODEL}} / {{GPT_MODEL}} so a model change is a one-line edit.
  */
 export const DOCS_DEFAULT_MODELS = {
-  claude: 'claude-opus-5-5',
+  claude: 'claude-fable-5-2',
   gpt: 'gpt-6.1-sol',
 } as const
 
