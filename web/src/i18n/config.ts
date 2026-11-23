@@ -28,6 +28,7 @@ import ru from './locales/ru.json'
 import vi from './locales/vi.json'
 import zhTW from './locales/zh-TW.json'
 import zhCN from './locales/zh.json'
+import { siteTranslations } from './site-locales'
 
 export const resources = {
   en,
@@ -38,6 +39,13 @@ export const resources = {
   vi,
   zhTW,
 } as const
+
+for (const [language, translation] of Object.entries(siteTranslations)) {
+  Object.assign(
+    resources[language as keyof typeof resources].translation,
+    translation
+  )
+}
 
 i18n
   .on('languageChanged', (language: string) => {

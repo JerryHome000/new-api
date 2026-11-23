@@ -471,7 +471,6 @@
   "failed to count search tokens: %s": "统计令牌搜索结果数量失败: %s",
   "failed to count search topups: %s": "统计充值记录搜索结果数量失败: %s",
   "failed to count tags: %s": "统计标签数量失败: %s",
-  "pricing source fetch failed, serving local pricing: %s": "拉取外部模型价格失败，改用本站价格: %s",
   "failed to count user logs: %s": "统计用户日志数量失败: %s",
   "failed to count user tokens: %s": "统计用户令牌数量失败: %s",
   "failed to create disk storage, falling back to memory: %v": "请求体写入磁盘失败，改为保存在内存: %v",

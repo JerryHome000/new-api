@@ -7,6 +7,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/QuantumNous/new-api/service"
+
+	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -52,4 +55,47 @@ func TestPricingSourceCacheRejectsUnsuccessfulBody(t *testing.T) {
 	var cache pricingSourceCache
 	_, err := cache.Get(context.Background(), server.Client(), server.URL)
 	require.Error(t, err)
+}
+
+func TestServePricingSourceFallsThroughToLocalPricing(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	service.InitHttpClient()
+	const remoteBody = `{"success":true,"data":[{"model_name":"remote-model"}]}`
+	healthy := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		_, _ = w.Write([]byte(remoteBody))
+	}))
+	defer healthy.Close()
+	down := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusBadGateway)
+	}))
+	defer down.Close()
+
+	router := gin.New()
+	router.GET("/api/pricing", ServePricingSource, func(c *gin.Context) {
+		c.String(http.StatusOK, "local")
+	})
+
+	cases := []struct {
+		name      string
+		sourceURL string
+		want      string
+	}{
+		{name: "unset source serves local pricing", sourceURL: "", want: "local"},
+		{name: "reachable source replaces local pricing", sourceURL: healthy.URL, want: remoteBody},
+		{name: "unreachable source without a cached body serves local pricing", sourceURL: down.URL, want: "local"},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			t.Setenv("PRICING_SOURCE_URL", tc.sourceURL)
+			pricingSource.Lock()
+			pricingSource.body = nil
+			pricingSource.Unlock()
+
+			recorder := httptest.NewRecorder()
+			router.ServeHTTP(recorder, httptest.NewRequest(http.MethodGet, "/api/pricing", nil))
+
+			require.Equal(t, http.StatusOK, recorder.Code)
+			assert.Equal(t, tc.want, recorder.Body.String())
+		})
+	}
 }
